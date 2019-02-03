@@ -39,3 +39,12 @@ class Reservation:
     cur.execute(request.format(hotel_id, room_num, check_in))
     
     return cur.fetchone() is None
+
+  def reset_table(conn):
+    Reservation.create_table(conn)
+
+  def drop_table(conn):
+    cur = conn.cursor()
+
+    cur.execute("DROP TABLE IF EXISTS reservation")
+

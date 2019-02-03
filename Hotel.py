@@ -1,3 +1,5 @@
+import Facade
+
 class Hotel:
 
   def __init__(self, id, country, address, postcode, town, stars, opened):
@@ -25,4 +27,22 @@ class Hotel:
   def load(self, conn):
     cur = conn.cursor()
     cur.execute("INSERT INTO hotel (id, country, address, postcode, town, stars, open) VALUES(%s, %s, %s, %s, %s, %s, %s)", (self.id, self.country, self.address, self.postcode, self.town, self.stars, self.opened))
-    
+        
+  def reset_table(conn):
+    Hotel.create_table(conn)
+ 
+    data_cur = Facade.get_data_connection().cursor()
+
+    rows = []
+    data_cur.execute("""SELECT * FROM hotel""")
+    for row in data_cur:
+        hotel = Hotel(row[0],row[1],row[2],row[3],row[4],row[5],row[6])
+        hotel.load(conn)
+
+    data_cur.close()
+
+  def drop_table(conn):
+    cur = conn.cursor()
+
+    cur.execute("DROP TABLE IF EXISTS hotel")
+

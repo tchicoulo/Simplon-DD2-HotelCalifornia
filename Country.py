@@ -12,4 +12,21 @@ class Country:
   def load(self, conn):
     cur = conn.cursor()
     cur.execute("INSERT INTO country (id, name) VALUES(%s, %s)", (self.code, self.name))
-    
+        
+  def reset_table(conn):
+    Country.create_table(conn)
+
+    f = open("codes_pays.txt","r")
+
+    for line in f:
+      l = line.split("\t")
+      country = Country(l[1], l[0])
+      country.load(conn)
+
+    f.close()
+
+  def drop_table(conn):
+    cur = conn.cursor()
+
+    cur.execute("DROP TABLE IF EXISTS country")
+

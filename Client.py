@@ -23,3 +23,11 @@ class Client:
     cur = conn.cursor()
     cur.execute("INSERT INTO room (email, name, firstname, nationality) VALUES(%s, %s, %s, %s)", (self.email, self.name, self.firstname, self.nationality))
     
+  def reset_table(conn):
+    Client.create_table(conn)
+
+  def drop_table(conn):
+    cur = conn.cursor()
+
+    cur.execute("DROP TABLE IF EXISTS client")
+
