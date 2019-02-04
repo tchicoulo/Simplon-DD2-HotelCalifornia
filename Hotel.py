@@ -11,6 +11,17 @@ class Hotel:
     self.stars = stars
     self.opened = opened
 
+  def get_hotels(conn):
+    hotels = []
+
+    cur = conn.cursor()
+
+    # votre code ici
+
+    cur.close()
+
+    return hotels
+
   def create_table(conn):
     cur = conn.cursor()
 
@@ -33,7 +44,6 @@ class Hotel:
  
     data_cur = Facade.get_data_connection().cursor()
 
-    rows = []
     data_cur.execute("""SELECT * FROM hotel""")
     for row in data_cur:
         hotel = Hotel(row[0],row[1],row[2],row[3],row[4],row[5],row[6])

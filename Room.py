@@ -30,7 +30,6 @@ class Room:
 
     data_cur = Facade.get_data_connection().cursor()
 
-    rows = []
     data_cur.execute("""SELECT * FROM room""")
     for row in data_cur:
         room = Room(row[0],row[1],row[2],row[3])

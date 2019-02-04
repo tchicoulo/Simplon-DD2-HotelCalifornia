@@ -8,6 +8,24 @@ class Reservation:
     self.check_out = check_out
     self.num_persons = num_persons
 
+  def find_room(hotel_id, check_in, num_persons):
+    # votre code ici
+
+    return None
+
+  def is_room_available (conn, hotel_id, room_num, check_in):
+    cur = conn.cursor()
+
+    request = "SELECT * FROM Hotel WHERE id = {} AND open = 1"
+    cur.execute(request.format(hotel_id))
+
+    if cur.fetchone() is None : return False
+
+    request = "SELECT * FROM Reservation WHERE hotel_id = {} AND room_num = {} AND check_in = '{}'"
+    cur.execute(request.format(hotel_id, room_num, check_in))
+    
+    return cur.fetchone() is None
+
   def create_table(conn):
     cur = conn.cursor()
 
@@ -27,19 +45,6 @@ class Reservation:
     cur = conn.cursor()
     cur.execute("INSERT INTO room (email, hotel_id, room_num, check_in, check_out, num_persons) VALUES(%s, %s, %s, %s)", (self.email, self.hotel_id, self.room_num, self.check_in, self.check_out, self.num_persons))
     
-  def is_room_available (conn, hotel_id, room_num, check_in):
-    cur = conn.cursor()
-
-    request = "SELECT * FROM Hotel WHERE id = {} AND open = 1"
-    cur.execute(request.format(hotel_id))
-
-    if cur.fetchone() is None : return False
-
-    request = "SELECT * FROM Reservation WHERE hotel_id = {} AND room_num = {} AND check_in = '{}'"
-    cur.execute(request.format(hotel_id, room_num, check_in))
-    
-    return cur.fetchone() is None
-
   def reset_table(conn):
     Reservation.create_table(conn)
 

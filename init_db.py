@@ -1,5 +1,3 @@
-import configparser
-
 import Facade
 
 conn = Facade.get_connection()
