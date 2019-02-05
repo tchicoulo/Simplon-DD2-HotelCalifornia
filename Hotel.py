@@ -16,7 +16,14 @@ class Hotel:
 
     cur = conn.cursor()
 
-    # votre code ici
+    cur.execute("""SELECT country.name, address, postcode, town, stars
+        FROM hotel
+        INNER JOIN country ON hotel.country = country.id
+        WHERE open = 1""")
+
+    results = cur.fetchall()
+    for elem in results:
+        hotels.append({"country":elem[0], "address":elem[1], "postcode":elem[2], "town":elem[3], "stars":elem[4]})
 
     cur.close()
 
@@ -38,10 +45,10 @@ class Hotel:
   def load(self, conn):
     cur = conn.cursor()
     cur.execute("INSERT INTO hotel (id, country, address, postcode, town, stars, open) VALUES(%s, %s, %s, %s, %s, %s, %s)", (self.id, self.country, self.address, self.postcode, self.town, self.stars, self.opened))
-        
+
   def reset_table(conn):
     Hotel.create_table(conn)
- 
+
     data_cur = Facade.get_data_connection().cursor()
 
     data_cur.execute("""SELECT * FROM hotel""")
@@ -55,4 +62,3 @@ class Hotel:
     cur = conn.cursor()
 
     cur.execute("DROP TABLE IF EXISTS hotel")
-
