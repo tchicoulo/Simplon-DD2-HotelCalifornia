@@ -25,7 +25,7 @@ class Hotel:
     for elem in results:
         hotels.append({"country":elem[0], "address":elem[1], "postcode":elem[2], "town":elem[3], "stars":elem[4]})
 
-    cur.close()
+    cur.close() 
 
     return hotels
 
